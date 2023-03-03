@@ -12,7 +12,7 @@ terraform {
   }
 
   cloud {
-    organization = "ned-in-the-cloud"
+    organization = "brightblueray"
 
     workspaces {
       name = "oidc-github-demo"

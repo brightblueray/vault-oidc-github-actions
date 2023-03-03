@@ -7,7 +7,7 @@ terraform {
   }
 
   cloud {
-    organization = "ned-in-the-cloud"
+    organization = "brightblueray"
 
     workspaces {
       name = "oidc-vault-cluster"
