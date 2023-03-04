@@ -52,6 +52,7 @@ jobs:
       uses: hashicorp/vault-action@v2
       with:
         method: jwt
+        url: ${{ secrets.VAULT_ADDR }}
         role: ${{ secrets.VAULT_ROLE }}
         namespace: admin
         secrets: kv/data/ci app_secret
