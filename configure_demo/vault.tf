@@ -11,7 +11,6 @@ resource "vault_mount" "taco" {
 }
 
 # Create a secret in the KV engine
-
 resource "vault_kv_secret_v2" "taco" {
   mount = vault_mount.taco.path
   name  = "sauce_recipe"
@@ -53,4 +52,35 @@ resource "vault_jwt_auth_backend_role" "example" {
   bound_subject     = "repo:${var.github_organization}/${var.github_repository}:ref:refs/heads/main"
   user_claim        = "actor"
   role_type         = "jwt"
+}
+
+# Create KV store for DockerHub PAT
+resource "vault_mount" "kv" {
+  path        = "kv"
+  type        = "kv"
+  options     = { version = "2" }
+  description = "Second KV mount for OIDC demo"
+}
+
+# Create a secret in the KV engine
+resource "vault_kv_secret_v2" "ci" {
+  mount = vault_mount.kv.path
+  name  = "ci"
+  data_json = jsonencode(
+    {
+      app_user = "${var.docker_user}",
+      app_secret = "${var.docker_pat}"
+    }
+  )
+}
+
+# Create a policy granting the GitHub repo access to the KV engine
+resource "vault_policy" "ci-secret-reader" {
+  name = "ci-secret-reader"
+
+  policy = <<EOT
+path "${vault_kv_secret_v2.ci.path}" {
+  capabilities = ["list","read"]
+}
+EOT
 }

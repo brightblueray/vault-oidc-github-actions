@@ -15,3 +15,13 @@ variable "github_repository" {
   description = "(Required) The GitHub repository for the JWT authentication role."
   default = "vault-oidc-github-actions"
 }
+
+variable "docker_pat" {
+  type = string
+  description = "(Required) A Valid PAT for Docker Hub"
+}
+
+variable "docker_user" {
+  type = string
+  description = "(Required) User for Docker Hub"
+}

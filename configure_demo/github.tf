@@ -3,6 +3,7 @@ data "github_repository" "repo" {
   full_name = "${var.github_organization}/${var.github_repository}"
 }
 
+# Create a number of GitHub Repo Variables 
 resource "github_actions_secret" "secrets" {
   for_each = {
     "VAULT_ADDR"        = var.vault_server_url
