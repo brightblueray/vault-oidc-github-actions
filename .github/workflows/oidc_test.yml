@@ -34,6 +34,7 @@ jobs:
         VAULT_AUTH_PATH: jwt
         VAULT_ROLE: ${{ secrets.VAULT_ROLE }}
 
+    # Retrieve a single secret and define a new name: https://github.com/marketplace/actions/vault-secrets#set-output-variable-name
     - name: Retrieve Secrets
       id: secretdata
       uses: hashicorp/vault-action@v2.4.0
@@ -48,6 +49,7 @@ jobs:
       run: |
           echo '${{ steps.secretdata.outputs.MY_SECRET }}'
 
+    # Retrieve  Multiple secrets https://github.com/marketplace/actions/vault-secrets#multiple-secrets
     - name: Import Secrets
       uses: hashicorp/vault-action@v2
       with:
@@ -55,10 +57,12 @@ jobs:
         url: ${{ secrets.VAULT_ADDR }}
         role: ${{ secrets.VAULT_ROLE }}
         namespace: admin
-        secrets: kv/data/ci app_secret
+        secrets: |
+          kv/data/ci app_secret ;
+          kv/data/ci app_user 
 
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
-        username: ryjewski
+        username: ${{env.APP_USER}}
         password: ${{env.APP_SECRET}}
