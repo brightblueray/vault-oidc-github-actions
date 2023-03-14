@@ -4,6 +4,12 @@ variable "vault_server_url" {
   default = "https://oidc-demo-public-vault-ec61ebf3.fb516a4f.z1.hashicorp.cloud:8200"
 }
 
+variable "vault_namespace" {
+  type = string
+  description = "(Required) The Namespace to be used with Vault"
+  default = "admin" # admin is the default namespace with HCP Vault
+}
+
 variable "github_organization" {
   type        = string
   description = "(Required) The GitHub organization or username for the JWT authentication role."
