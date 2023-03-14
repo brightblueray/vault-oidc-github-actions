@@ -2,7 +2,7 @@
 # resource "vault_identity_group" "gha-team" {
 #   name     = "gha-team"
 #   type     = "external"
-#   policies = ["ci-secret-reader","github-actions-oidc"]
+#   policies = ["ci-secret-reader"]
 # }
 
 # # Create Vault Auth Backend
